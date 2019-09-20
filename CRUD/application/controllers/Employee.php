@@ -53,6 +53,7 @@
     }
     function delete($id)
     {
+      
       $this->db->where('id', $id);
       $this->db->delete('empdb.tb2');
       redirect(base_url('index.php/Employee/index'));

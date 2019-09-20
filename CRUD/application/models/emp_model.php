@@ -41,15 +41,34 @@
   	}
 			function update_emp($id)
 			{
+				$checkarr = $_POST['hobbies'];
+      	$newValues = implode(",", $checkarr);
+      	/*$data = array(
+
+      							
+      								'namedb'  => $this->input->post('username'), 
+      								'phonenumber'  => $this->input->post('userphonenumber'), 
+      								'department' => $this->input->post('userdepartment'), 
+      								'gender' => $this->input->post('usergender'),
+      								'hobbies' => $newValues,
+      								'address' => $this->input->post('address'),
+            				);
+      							$result=$this->db->insert('empdb.tb2',$data);
+       							return $result;
+      								//$empdata = $this->db->update('empdb.tb2',array('id'=>$id))->row();
+    									//return $empdata;
+      								//$this->db->where('id', $id);
+       								//$result=$this->db->update('empdb.tb2',$data);
+       								//return $result;*/
         $name=$this->input->post('username');
         $phonenumber=$this->input->post('userphonenumber');
         $department=$this->input->post('userdepartment');
         $gender=$this->input->post('usergender');
-        $hobbies=$this->input->post('userhobbies');
-        $address=$this->input->post('useraddress');
+        $hobbies=$this->input->post('hobbies');
+       	$address=$this->input->post('address');
 
  				$newValues = implode(",", $hobbies);
-        $this->db->set('name', $name);
+       	$this->db->set('namedb', $name);
         $this->db->set('phonenumber', $phonenumber);
         $this->db->set('department', $department);
         $this->db->set('gender', $gender);
@@ -58,8 +77,8 @@
         $this->db->where('id', $id);
         $result=$this->db->update('empdb.tb2');
 
-        echo $this->db->last_query();
-        return $result;
+        //echo $this->db->last_query();
+        //return $result;
     	}
  			function delete_emp($id)
  			{

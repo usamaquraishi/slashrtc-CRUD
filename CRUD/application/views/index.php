@@ -138,22 +138,22 @@
                     <div class="form-group">
                       <label for="gender">Gender</label>
                       <div class="radio">
-                        <label> <input type="radio" class="editgender"  name="editgender" id="editgender" value="Male" checked>Male</label>
-                        <label> <input type="radio"  class="editgender"  name="editgender" id="editgender" value="Female">Female</label>
+                        <label> <input type="radio" class="editgender"  name="editgender" id="editgender" value="Male">Male</label>
+                        <label> <input type="radio"  class="editgender"  name="editgender2" id="editgender" value="Female">Female</label>
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="hobbies">Hobbies</label>
                       <div class="checkbox" >
-                        <label> <input type="checkbox" class="edithobbies" name="hobbies"  value="FootBall">FootBall</label>
-                        <label> <input type="checkbox" class="edithobbies" name="hobbies"  value="Cricket">Cricket</label>
-                        <label> <input type="checkbox" class="edithobbies" name="hobbies"  value="Dance">Dance </label>
+                        <label> <input type="checkbox" class="edithobbies" name="edithobbies"  value="FootBall">FootBall</label>
+                        <label> <input type="checkbox" class="edithobbies" name="edithobbies2"  value="Cricket">Cricket</label>
+                        <label> <input type="checkbox" class="edithobbies" name="edithobbies3"  value="Dance">Dance </label>
                         <span id="checkboxcheck"></span>
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="address">Address:</label>
-                      <textarea class="form-control" name="address" id="editaddress" rows="5"></textarea>
+                      <textarea class="form-control" name="editaddress" id="editaddress" rows="5"></textarea>
                       <span id="addresscheck"></span>
                     </div>
                   </div>
@@ -196,7 +196,7 @@
                         '<td>'+
 
                           '<a  class="btn btn-info btn-sm item_edit" data-id="'+data[i].id+'" >Edit</a>'+' '+
-                            '<a href="javascript:void(0);" class="btn btn-danger btn-sm item_delete" data-product_code="'+data[i].id+'">Delete</a>'+
+                            '<a  class = "btn btn-danger btn-xs" href="<?php echo site_url('Employee/delete');?>'+"/"+data[i].id +'">Delete</a>'+
                         '</td>'+
                         '</tr>';
                       }
@@ -243,7 +243,7 @@
                 $('#show_data').on('click','.item_edit',function()
                 {
                   var id = $(this).data('id');
-                    console.log(id);
+                  console.log(id);
                   $.ajax({
                             type : "POST",
                             url  : "<?php echo base_url('index.php/Employee/edit');?>",
@@ -253,11 +253,56 @@
                             {
                               console.log("hi",msg);
                               $('[name = "editid"]').val(msg.id);
-                              $('[name = "editname"]').val(msg.name);
+                              $('[name = "editname"]').val(msg.namedb);
                               $('[name = "editphonenumber"]').val(msg.phonenumber);
                               $('[name = "editdepartment"]').val(msg.department);
-                              $('[name = "editgender"]').val(msg.gender);
-                              $('[name = "edithobbies"]').val(msg.hobbies);
+                              //$('[name = "editgender"]').val(msg.gender);
+
+                                if(msg.gender == "Male")
+                                {
+                                  $('[name = "editgender"]').prop("checked",true); 
+                                  $('[name = "editgender2"]').prop("checked",false);
+                                }
+                                else
+                                {
+                                  $('[name = "editgender"]').prop("checked",false);
+                                  $('[name = "editgender2"]').prop("checked",true);  
+                                }
+
+
+                              
+                                if(msg.hobbies == "FootBall")
+                                {
+                                  $('[name = "edithobbies"]').prop("checked",true);
+                                  
+                                }
+                                else{ 
+                                  $('[name = "edithobbies"]').prop("checked",false);
+                                    }
+                                    if(msg.hobbies == "Cricket")
+                                {
+                                  $('[name = "edithobbies2"]').prop("checked",true);
+                                  
+                                }
+                                else{ 
+                                  $('[name = "edithobbies2"]').prop("checked",false);
+                                    }
+
+                                    if(msg.hobbies == "Dance")
+                                {
+                                  $('[name = "edithobbies3"]').prop("checked",true);
+                                  
+                                }
+                                else{ 
+                                  $('[name = "edithobbies3"]').prop("checked",false);
+                                    }
+
+
+
+
+          
+
+
                               $('[name = "editaddress"]').val(msg.address);
                               $('#Modal_Edit').modal('show');
                             }
@@ -273,10 +318,8 @@
                               //UPDATE RECORD TO DATABASE
                   $('#btn_update').on('click',function()
                   {
-                    
-                    console.log("update is click")
-                    
-                     var userid = $('#editid').val();
+                    console.log("update is click");
+                    var userid = $('#editid').val();
                     var username = $('#editname').val();
                     var userphonenumber = $('#editphonenumber').val();
                     var userdepartment = $('#editdepartment').val();
@@ -287,22 +330,22 @@
                       hobbies.push($(this).val());
                     });
                     var address = $('#editaddress').val();
-                    $.ajax({
-                    type : "POST",
-                    url  : "<?php echo site_url('Employee/update')?>",
-                    dataType : "JSON",
-                    data : {userid :userid, username:username , userphonenumber:userphonenumber, userdepartment:userdepartment, usergender:usergender, hobbies:hobbies , address:address},
-                    success: function(data)
-                    {
-                     $('[name="editname"]').val("");
-                     $('[name="editphonenumber"]').val("");
-                     $('[name="editdepartment"]').val("");
-                     $('#Modal_Edit').modal('hide');
-//                      show_product()
-                    }
+                    $.ajax
+                    ({
+                      type : "POST",
+                      url  : "<?php echo site_url('Employee/update')?>",
+                      dataType : "JSON",
+                      data : {userid :userid, username:username , userphonenumber:userphonenumber,                    userdepartment:userdepartment, usergender:usergender, hobbies:hobbies , address:address},
+                      success: function(data)
+                      {
+                        $('[name="editname"]').val("");
+                        $('[name="editphonenumber"]').val("");
+                        $('[name="editdepartment"]').val("");
+                        $('#Modal_Edit').modal('hide');
+                        show_product()
+                      }
+                    });
                   });
-           
-        });
               });
             </script>
 
